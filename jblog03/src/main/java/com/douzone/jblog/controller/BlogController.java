@@ -137,8 +137,8 @@ public class BlogController {
 			@PathVariable("id") String id, Model model) {
 		List<CategoryVo> categorylist = categoryService.findAll(id);
 		model.addAttribute("categorylist", categorylist);
-		return "blog/admin/write";
-	}
+			return "blog/admin/write";
+		}
 
 	@Auth
 	@RequestMapping(value = "/admin/write", method = RequestMethod.POST)

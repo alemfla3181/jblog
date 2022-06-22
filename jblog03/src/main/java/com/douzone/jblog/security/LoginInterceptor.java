@@ -32,7 +32,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 		authUser.setId(id);
 		HttpSession session = request.getSession(true);
 		session.setAttribute("authUser", authUser);
-		System.out.println("session: " + authUser);
+//		System.out.println("session: " + authUser);
 		response.sendRedirect(request.getContextPath());
 		return false;
 	}
