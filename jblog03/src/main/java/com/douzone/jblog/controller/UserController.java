@@ -5,9 +5,11 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.douzone.jblog.security.Auth;
 import com.douzone.jblog.security.AuthUser;
@@ -30,13 +32,17 @@ public class UserController {
 	private CategoryService categoryService;
 	
 
-	@RequestMapping(value = "/join", method = RequestMethod.GET)
+	@GetMapping("/join")
 	public String join(@ModelAttribute UserVo userVo) {
 		return "user/join";
 	}
 	
-	@RequestMapping(value = "/join", method = RequestMethod.POST)
-	public String join(@ModelAttribute @Valid UserVo userVo,  Model model) {
+	@PostMapping("/join")
+	public String join(@ModelAttribute @Valid UserVo userVo, BindingResult result,  Model model) {
+		if(result.hasErrors()) {			
+			model.addAllAttributes(result.getModel());
+			return "user/join";
+		}
 		userService.join(userVo);
 		String id = userVo.getId();
 		blogService.insert(id);
@@ -49,7 +55,7 @@ public class UserController {
 		return "user/joinsuccess";
 	}
 
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	@GetMapping("/login")
 	public String login() {
 		return "user/login";
 	}
@@ -63,7 +69,7 @@ public class UserController {
 	}
 
 	@Auth
-	@RequestMapping(value = "/update", method = RequestMethod.GET)
+	@GetMapping("/update")
 	public String update(@AuthUser UserVo authUser, Model model) {
 //		System.out.println(authUser);
 		String id = authUser.getId();
@@ -73,7 +79,7 @@ public class UserController {
 	}
 
 	@Auth
-	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	@PostMapping("/update")
 	public String update(@AuthUser UserVo authUser, UserVo vo) {
 		vo.setId(authUser.getId());
 		userService.updateUser(vo);
