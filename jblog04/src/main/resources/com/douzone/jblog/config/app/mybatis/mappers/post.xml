@@ -6,7 +6,7 @@
 		<choose>
 			<when test="category_no != 0">
 				<![CDATA[
-					select * from post where category_no = #{category_no};
+					select * from post where category_no = #{category_no} order by no desc
 					]]>
 			</when>
 			<otherwise>
