@@ -31,7 +31,7 @@
 	</bean>
 
 	<!-- MVC REsource Mapping -->
-	<mvc:resources location="file:/jblog-uploads/"
+	<mvc:resources location="file:/jblog-uploads/gallery/"
 		mapping="/assets/gallery/**" />
 
 	<!-- 멀티파트 리졸버 -->
