@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="category">
+	<insert id="insertDefault" parameterType="String">
+	<![CDATA[
+		insert into category values(null, '기타', '기본 카테고리', #{id })
+		]]>
+	</insert>
+
+	<select id="findAll" parameterType="String" resultType="categoryvo">
+	<![CDATA[
+		select no, name, description, blog_id, IFNULL(b.count,0) as count
+		from category a left outer join 	
+		(select category_no, count(*) as count from post a, category b where a.category_no = b.no and b.blog_id =#{id } group by a.category_no) b
+		on a.no = b.category_no
+		where blog_id=#{id }
+		order by a.no desc;
+		]]>
+	</select>
+
+	<select id="getCategory" parameterType="String" resultType="categoryvo">
+	<![CDATA[
+		select * from category where blog_id =#{id} order by no desc limit 0, 1
+		]]>
+	</select>
+
+	<insert id="insert" parameterType="categoryvo">
+	<![CDATA[
+		insert into category values(null, #{name }, #{description }, #{blog_id })
+		]]>
+	</insert>
+
+	<delete id="delete" parameterType="Long">
+	<![CDATA[
+		delete from category where no =#{no}
+		]]>
+	</delete>
+</mapper>

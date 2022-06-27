@@ -25,11 +25,11 @@
 			<when test='no == 0'>
 			<![CDATA[
 			select * from post where category_no=#{category_no } order by no desc limit 0, 1
-				]]>
+			]]>
 			</when>
 			<otherwise>
 			<![CDATA[
-			select * from post where category_no=#{category_no } and no=#{no }
+			select * from post where category_no=#{category_no } and no=#{no } limit 0, 1
 			]]>
 			</otherwise>
 		</choose>
